@@ -1,42 +1,87 @@
 <% layout("layouts/boilerplate") %>
-    <div class="row">
-        <h1 class="text-center">New Campground</h1>
-        <div class="col-6 offset-3">
-            <form action="/campgrounds" method="POST">
 
-                <div>
-                    <label for="title">Title</label><br>
-                    <input type="text" id="title" name="title" required>
+<div class="row">
+    <h1 class="text-center mb-4">New Campground</h1>
+
+    <div class="col-6 offset-3">
+        <form action="/campgrounds" method="POST">
+
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Camp Name"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    id="location"
+                    name="location"
+                    placeholder="City, State"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="image">Image URL</label>
+                <input
+                    class="form-control"
+                    type="url"
+                    id="image"
+                    name="image"
+                    placeholder="https://example.com/image.jpg"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="price">Campground Price</label>
+                <div class="input-group">
+                    <span class="input-group-text">₹</span>
+                    <input
+                        type="number"
+                        name="price"
+                        class="form-control"
+                        id="price"
+                        min="0"
+                        step="1"
+                        placeholder="1500"
+                        required
+                    >
                 </div>
+            </div>
 
-                <br>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea
+                    class="form-control"
+                    id="description"
+                    name="description"
+                    rows="5"
+                    placeholder="Describe the campground..."
+                    required
+                ></textarea>
+            </div>
 
-                <div>
-                    <label for="price">Price</label><br>
-                    <input type="text" id="price" name="price" required>
-                </div>
+            <div class="mb-3">
+                <button class="btn btn-success w-100" type="submit">
+                    Create Campground
+                </button>
+            </div>
 
-                <br>
-
-                <div>
-                    <label for="location">Location</label><br>
-                    <input type="text" id="location" name="location" required>
-                </div>
-
-                <br>
-
-                <div>
-                    <label for="description">Description</label><br>
-                    <textarea id="description" name="description" rows="5" cols="30" required></textarea>
-                </div>
-
-                <br>
-
-                <button type="submit">Create Campground</button>
-
-            </form>
-            <footer>
-                <a href="/campgrounds">All Camgrounds</a>
-            </footer>
-        </div>
+        </form>
+        <footer class="text-center">
+            <a class="btn btn-primary mt-3 mb-3" href="/campgrounds">
+                All Campgrounds
+            </a>
+        </footer>
     </div>
+</div>

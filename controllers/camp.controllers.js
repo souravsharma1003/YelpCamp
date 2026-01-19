@@ -1,8 +1,8 @@
 const campService=require("../services/camp.services");
 
 module.exports.createCamp=async(req,res)=>{
-    const {title,price,description,location}=req.body;
-    const campground=await campService.createCamp(title,price,description,location);
+    const {title,price,description,location,image}=req.body;
+    const campground=await campService.createCamp(title,price,description,location,image);
     res.redirect(`campgrounds/${campground._id}`);
 }
 
@@ -28,9 +28,9 @@ module.exports.getEditCamp=async(req,res)=>{
 }
 
 module.exports.editCamp=async(req,res)=>{
-    const{title,price,location}=req.body;
+    const{title,price,location,image,description}=req.body;
     const{id}=req.params;
-    const campground=await campService.editCamp(id,title,price,location);
+    const campground=await campService.editCamp(id,title,price,location,image,description);
     res.redirect(`/campgrounds/${campground._id}`);
 }
 

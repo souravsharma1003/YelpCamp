@@ -1,12 +1,13 @@
 const campModel=require("../models/campground");
 
-module.exports.createCamp=async(title,price,description,location)=>{
+module.exports.createCamp=async(title,price,description,location,image)=>{
     try {
         const newCamp=await campModel.create({
             title,
             price,
             description,
-            location
+            location,
+            image
         })
         return newCamp;
     } catch (error) {
@@ -22,8 +23,8 @@ module.exports.getCamp=async(id)=>{
     return await campModel.findById(id);
 }
 
-module.exports.editCamp=async(id,title,price,location)=>{
-    const campground=await campModel.findByIdAndUpdate(id,{title,price,location},{new:true});
+module.exports.editCamp=async(id,title,price,location,image,description)=>{
+    const campground=await campModel.findByIdAndUpdate(id,{title,price,location,image,description},{new:true});
     return campground;
 }
 
