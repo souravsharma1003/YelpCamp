@@ -21,6 +21,12 @@ app.use("/campgrounds",campRouter);
 
 app.use((req,res)=>{
     res.status(404).send("NOT FOUND");
-});  
+});
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message =statusCode === 500 ? "Internal Server Error" : err.message;
+    res.status(statusCode).send(message);
+});
 
 module.exports=app;
