@@ -1,7 +1,6 @@
-const campModel=require("../models/campground");
+const campModel=require("../models/campground.model");
 
 module.exports.createCamp=async(title,price,description,location,image)=>{
-    try {
         const newCamp=await campModel.create({
             title,
             price,
@@ -10,17 +9,14 @@ module.exports.createCamp=async(title,price,description,location,image)=>{
             image
         })
         return newCamp;
-    } catch (error) {
-        console.log(error.message);
     }
-}
 
 module.exports.findAllCampgrounds=async()=>{
     return await campModel.find({});
 }
 
 module.exports.getCamp=async(id)=>{
-    return await campModel.findById(id);
+    return await campModel.findById(id).populate("reviews");
 }
 
 module.exports.editCamp=async(id,title,price,location,image,description)=>{
@@ -29,5 +25,5 @@ module.exports.editCamp=async(id,title,price,location,image,description)=>{
 }
 
 module.exports.deleteCamp=async(id)=>{
-    await campModel.findByIdAndDelete(id);
+    return await campModel.findByIdAndDelete(id);
 }

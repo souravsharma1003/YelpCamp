@@ -1,5 +1,5 @@
 const connectToDb = require("./config/db");
-const Campground = require("./models/campground");
+const Campground = require("./models/campground.model");
 const generateImage = require("./utils/coverimage.util");
 require("dotenv").config();
 

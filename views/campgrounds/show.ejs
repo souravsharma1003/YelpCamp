@@ -1,67 +1,119 @@
 <% layout("layouts/boilerplate") %>
 
-<div class="row">
-    <div class="col-10 offset-1 col-md-8 offset-md-2">
+    <div class="d-flex" style="height: 100vh;">
 
-        <div class="card shadow-sm mb-4">
+        <!-- LEFT SIDE (70% width, full height) -->
+        <div style="width: 70%; overflow-y: auto;" class="pe-3">
 
-            <!-- Image (fixed size, no CSS file) -->
-            <img
-                src="<%= campground.image %>"
-                class="card-img-top"
-                alt="campground image"
-                style="height: 350px; object-fit: cover;"
-            >
+            <div class="card shadow-sm mb-4">
+                <img src="<%= campground.image %>" class="card-img-top" alt="campground image"
+                    style="height: 350px; object-fit: cover;">
 
-            <div class="card-body">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <%= campground.title %>
+                    </h2>
+                    <h6 class="card-subtitle text-muted mb-2">
+                        <%= campground.location %>
+                    </h6>
 
-                <h2 class="card-title">
-                    <%= campground.title %>
-                </h2>
+                    <p class="card-text mt-3">
+                        <%= campground.description %>
+                    </p>
 
-                <h6 class="card-subtitle text-muted mb-2">
-                    <%= campground.location %>
-                </h6>
+                    <p class="fw-bold">
+                        Price: ₹<%= campground.price %> / night
+                    </p>
+                </div>
 
-                <p class="card-text mt-3">
-                    <%= campground.description %>
-                </p>
-
-                <p class="fw-bold">
-                    Price: ₹<%= campground.price %> / night
-                </p>
-
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="card-footer bg-white">
-                <div class="d-flex justify-content-between align-items-center">
-
-                    <div>
-                        <a
-                            href="/campgrounds/<%= campground._id %>/edit"
-                            class="btn btn-warning btn "
-                        >
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between">
+                        <a href="/campgrounds/<%= campground._id %>/edit" class="btn btn-warning">
                             Edit
                         </a>
+
+                        <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger" type="submit">
+                                Delete
+                            </button>
+                        </form>
                     </div>
-
-                    <form
-                        action="/campgrounds/<%= campground._id %>?_method=DELETE"
-                        method="POST"
-                        class="d-inline"
-                    >
-                        <button
-                            class="btn btn-danger btn "
-                            type="submit"
-                        >
-                            Delete
-                        </button>
-                    </form>
-
                 </div>
             </div>
 
         </div>
+
+        <!-- RIGHT SIDE (30% width, split height) -->
+        <div style="width: 30%; height: 100%;" class="d-flex flex-column mb-3">
+
+            <!-- Review Form (50% height) -->
+            <div style="height: 50%; overflow-y: auto;" class="mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Leave a Review</h4>
+
+                        <form class="needs-validation" action="/campgrounds/<%= campground._id %>/reviews" method="POST"
+                            novalidate>
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <select id="rating" name="rating" class="form-select" required>
+                                    <option value="" disabled selected>Select rating</option>
+                                    <option value="1">1 ★</option>
+                                    <option value="2">2 ★</option>
+                                    <option value="3">3 ★</option>
+                                    <option value="4">4 ★</option>
+                                    <option value="5">5 ★</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="review" class="form-label">Review</label>
+                                <textarea id="review" name="review" class="form-control" rows="3" required></textarea>
+                            </div>
+
+                            <button class="btn btn-primary">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews List (50% height) -->
+            <div style="height: 50%; overflow-y: auto;">
+                <div class="card shadow-sm h-100 mb-6">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Reviews</h4>
+
+                        <% if (campground.reviews.length===0) { %>
+                            <p class="text-muted">No reviews yet.</p>
+                            <% } %>
+
+                                <% for (let review of campground.reviews) { %>
+                                    <div class="border rounded p-3 mb-3">
+                                        <div class="fw-bold mb-1">
+                                            Rating: <%= review.rating %> ★
+                                        </div>
+
+                                        <p class="mb-2">
+                                            <%= review.body %>
+                                        </p>
+
+                                        <div class="d-flex justify-content-end">
+                                            <form
+                                                action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                                method="POST">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    Remove
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <% } %>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-</div>

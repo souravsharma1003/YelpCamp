@@ -1,0 +1,20 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-danger text-center shadow-sm p-4">
+                <h1 class="display-6">Oops!</h1>
+                <p class="lead"><%= error.message || "Something went wrong" %></p>
+
+                <% if (error.statusCode) { %>
+                    <p class="text-muted">Error Code: <%= error.statusCode %></p>
+                <% } %>
+
+                <a href="/campgrounds" class="btn btn-primary mt-3">
+                    Back to Campgrounds
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
