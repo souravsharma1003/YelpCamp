@@ -1,6 +1,5 @@
 const campService = require("../services/camp.services");
 const wrapAsync = require("../utils/wrapAsync.util");
-const ExpressError = require("../utils/ExpressError.util");
 
 module.exports.createCamp = wrapAsync(async (req, res) => {
     const { title, price, description, location, image } = req.body;
@@ -11,6 +10,7 @@ module.exports.createCamp = wrapAsync(async (req, res) => {
         location,
         image
     );
+    req.flash("success","Successfully created a new CamGround!");
     res.redirect(`/campgrounds/${campground._id}`);
 });
 
@@ -22,7 +22,10 @@ module.exports.allCamps = wrapAsync(async (req, res) => {
 module.exports.getCamp = wrapAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await campService.getCamp(id);
-    if (!campground) throw new ExpressError("Campground not found", 404);
+    if (!campground){
+        req.flash("error","Error finding the Campground!")
+        return res.redirect("/campgrounds");
+    } 
     res.render("campgrounds/show", { campground });
 });
 
@@ -33,7 +36,10 @@ module.exports.newCamp = (req, res) => {
 module.exports.getEditCamp = wrapAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await campService.getCamp(id);
-    if (!campground) throw new ExpressError("Campground not found", 404);
+    if (!campground){
+        req.flash("error","Error finding the Campground!")
+        return res.redirect("/campgrounds");
+    }    
     res.render("campgrounds/edit", { campground });
 });
 
@@ -48,14 +54,22 @@ module.exports.editCamp = wrapAsync(async (req, res) => {
         image,
         description
     );
-    if (!campground) throw new ExpressError("Campground not found", 404);
+    if (!campground){
+        req.flash("error","Error finding the Campground!")
+        return res.redirect("/campgrounds");
+    } 
+    req.flash("success","Successfully edited the Campground");
     res.redirect(`/campgrounds/${campground._id}`);
 });
 
 module.exports.deleteCamp = wrapAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await campService.deleteCamp(id);
-    if (!campground) throw new ExpressError("Campground not found", 404);
+    if (!campground){
+        req.flash("error","Error finding the Campground!")
+        return res.redirect("/campgrounds");
+    } 
+    req.flash("success","Successfully deleted Campground")
     res.redirect("/campgrounds");
 });
  

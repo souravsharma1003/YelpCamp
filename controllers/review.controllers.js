@@ -13,6 +13,7 @@ module.exports.createReview=wrapAsync(async(req,res)=>{
     const reviews=await reviewService.createReviewService(rating,review);
     camp.reviews.push(reviews);
     await camp.save();
+    req.flash("success","Created a new Review");
     res.redirect(`/campgrounds/${camp._id}`);
 })
 
@@ -22,5 +23,6 @@ module.exports.deleteReview=wrapAsync(async(req,res)=>{
     if(!camp){
         throw new ExpressError("Camp not found",404);
     }
+    req.flash("success","Successfully deleted review");
     res.redirect(`/campgrounds/${camp._id}`)
 })
